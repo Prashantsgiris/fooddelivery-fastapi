@@ -1,4 +1,4 @@
-import schemas,models, hashing
+from food import schemas,models, hashing
 from sqlalchemy.orm import Session
 from werkzeug.security import generate_password_hash,check_password_hash
 from fastapi import HTTPException,status

@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-import models, schemas
+from food import models, schemas
 from fastapi import HTTPException,status
 from werkzeug.security import generate_password_hash,check_password_hash
 
@@ -21,7 +21,7 @@ def create_owner(db:Session, request:schemas.loginowner):
 
 
 def create(request: schemas.Menu, db: Session):
-    new_menu = models.Menu( title = request.title, price = request.price)
+    new_menu = models.Menu( title = request.title, price = request.price, user_id = request.user_id)
     db.add(new_menu)
     db.commit()
     db.refresh(new_menu)

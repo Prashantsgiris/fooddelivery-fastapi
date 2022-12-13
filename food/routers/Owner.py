@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends,status
-import schemas, database
-from repository import Owner
+from food import schemas, database
+from ..repository import Owner
 from sqlalchemy.orm import Session
 from typing import List
-from repository import Customer, Delivery
+from ..repository import Customer, Delivery
 from fastapi import FastAPI
 
 

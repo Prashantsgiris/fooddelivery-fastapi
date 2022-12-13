@@ -3,20 +3,26 @@ from typing import Optional
 
 
 
+class Menu(BaseModel):
+    title: str
+    price: int
+    user_id: int
+
+class ShowMenu(BaseModel):
+    title: str
+    price: int
+    class Config():
+        orm_mode = True
 
 class orders(BaseModel):
     title : str
     quantity : int
 
 
-class Menu(BaseModel):
-    title: str
-    price: int
-
-
-class ShowMenu(BaseModel):
-    title: str
-    price: int
+class showorders(BaseModel):
+    title : str
+    quantity: int
+    bill : int
 
     class Config():
         orm_mode = True

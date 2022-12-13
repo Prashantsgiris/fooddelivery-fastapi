@@ -1,7 +1,7 @@
 from fastapi import APIRouter,Depends
-import schemas, database
+from food import schemas, database
 from sqlalchemy.orm import Session
-from repository import Delivery
+from ..repository import Delivery
 
 
 

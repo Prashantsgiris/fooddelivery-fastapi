@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends,status
-import schemas, database
-from repository import menu
+from food import schemas, database
+from ..repository import menu
 from typing import List
 from sqlalchemy.orm import Session
 

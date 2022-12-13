@@ -1,11 +1,8 @@
 from sqlalchemy.orm import Session
-import models,schemas, hashing
+from food import models, schemas, hashing
 from fastapi import HTTPException,status
 from werkzeug.security import generate_password_hash, check_password_hash
 from typing import List
-
-
-
 
 def create_customer(db:Session, request: schemas.logincustomer):
     check = db.query(models.logincustomer).filter(models.logincustomer.username == request.username or models.logincustomer.email == request.email).first()
@@ -25,10 +22,21 @@ def placeorder(db:Session, request: schemas.orders):
     order = models.orders(title=request.title,quantity= request.quantity)
     db.add(order)
     db.commit()
-    check = db.query(models.Menu).filter(models.Menu.title == request.title).filter()
+    check = db.query(models.Menu).filter(models.Menu.title == request.title).first()
     if check:
-        bill = request.quantity*200
-        return{'order' : request.title,'quantity':request.quantity,'Bill':bill}
+        if request.title == "Veg Momo":
+            bill = request.quantity * 160
+            return {'order': request.title, 'quantity': request.quantity, 'Bill': bill}
+        elif request.title == "Chicken Momo":
+            bill = request.quantity * 200
+            return {'order': request.title, 'quantity': request.quantity, 'Bill': bill}
+        elif request.title == "Mutton Momo":
+            bill = request.quantity * 300
+            return {'order': request.title, 'quantity': request.quantity, 'Bill': bill}
 
-    db.refresh(order)
-    return order,response
+
+    db.commit()
+    return order
+
+
+

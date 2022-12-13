@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-import models
+from food import models
 
 
 

@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends
-import schemas, database
-from repository import Customer
+from food import schemas, database
+from ..repository import Customer
 from sqlalchemy.orm import Session
 from fastapi_jwt_auth import AuthJWT
 
