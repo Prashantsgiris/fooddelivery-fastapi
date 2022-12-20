@@ -24,7 +24,6 @@ class orders(Base):
     quantity = Column(Integer,nullable=False)
 
 
-
 class loginowner(Base):
     __tablename__ = "Owner"
     id = Column(Integer, primary_key=True, index=True)
@@ -47,8 +46,6 @@ class logindelivery(Base):
     username = Column(String)
     email = Column(String)
     password = Column(String)
-
-
 
 
 

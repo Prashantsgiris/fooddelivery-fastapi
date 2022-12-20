@@ -28,19 +28,6 @@ def create(request: schemas.Menu, db: Session):
     return new_menu
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 def delete(id, db:Session):
     remove = db.query(models.Menu).filter(models.Menu.id == id)
     if not remove.first():

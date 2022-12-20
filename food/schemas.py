@@ -19,10 +19,11 @@ class orders(BaseModel):
     quantity : int
 
 
+
 class showorders(BaseModel):
     title : str
     quantity: int
-    bill : int
+
 
     class Config():
         orm_mode = True

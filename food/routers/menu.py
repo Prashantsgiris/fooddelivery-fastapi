@@ -13,7 +13,7 @@ router = APIRouter(
 get_db = database.get_db
 
 
-@router.get('/',response_model=List[schemas.ShowMenu])
+@router.get('/menu',response_model=List[schemas.ShowMenu])
 def all(db:Session = Depends(get_db)):
     return menu.get_all(db)
 

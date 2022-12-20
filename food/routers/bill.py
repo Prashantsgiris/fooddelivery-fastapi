@@ -8,9 +8,10 @@ from ..repository import bill
 get_db = database.get_db
 
 router = APIRouter(
+    tags=["bill"]
 
 )
 
-@router.get('/', response_model=List[schemas.orders])
-def show(db:Session = Depends(get_db)):
-    return bill.orders(db)
+@router.get('/bills', response_model=List[schemas.showorders])
+def show(request:schemas.orders,db:Session = Depends(get_db)):
+    return bill.order(db, request)

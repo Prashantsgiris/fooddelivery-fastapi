@@ -38,5 +38,3 @@ def placeorder(db:Session, request: schemas.orders):
     db.commit()
     return order
 
-
-
