@@ -8,6 +8,9 @@ class Menu(BaseModel):
     price: int
     user_id: int
 
+class Bill(BaseModel):
+    bill: int
+
 class ShowMenu(BaseModel):
     title: str
     price: int
@@ -17,12 +20,13 @@ class ShowMenu(BaseModel):
 class orders(BaseModel):
     title : str
     quantity : int
-
+    price : int
 
 
 class showorders(BaseModel):
     title : str
     quantity: int
+    price:int
 
 
     class Config():
@@ -63,6 +67,11 @@ class showlogindelivery(BaseModel):
 
     class Config():
         orm_mode = True
+
+class login(BaseModel):
+    username: str
+    email: str
+    password: str
 
 
 

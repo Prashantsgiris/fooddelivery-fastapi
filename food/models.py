@@ -22,6 +22,8 @@ class orders(Base):
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String)
     quantity = Column(Integer,nullable=False)
+    price = Column(Integer)
+
 
 
 class loginowner(Base):

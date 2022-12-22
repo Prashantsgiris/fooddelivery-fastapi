@@ -1,40 +1,42 @@
 from sqlalchemy.orm import Session
-from food import models, schemas, hashing
-from fastapi import HTTPException,status
-from werkzeug.security import generate_password_hash, check_password_hash
-from typing import List
+from food import models, schemas, hashing, database
+from fastapi import HTTPException,status, Depends
+from food.hashing import Hash
 
-def create_customer(db:Session, request: schemas.logincustomer):
+get_db = database.get_db
+
+def create_customer(db: Session, request: schemas.logincustomer):
     check = db.query(models.logincustomer).filter(models.logincustomer.username == request.username or models.logincustomer.email == request.email).first()
     if check is not None:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f'Try unique username and email already ')
-    new_customer= models.logincustomer(username = request.username,email = request.email, password = generate_password_hash(request.password))
+    new_customer = models.logincustomer(username = request.username,email = request.email, password = hashing.Hash.bcrypt(request.password))
     db.add(new_customer)
     db.commit()
     db.refresh(new_customer)
     return new_customer
+
+def login_as_Customer(request: schemas.login, db:Session = Depends(get_db)):
+    user = db.query(models.logincustomer).filter(models.logincustomer.username == request.username).first()
+    if not user:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
+                            detail=f"Invalid Credentials")
+    if not Hash.verify(user.password,request.password):
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
+                            detail=f"Incorrect Password")
+    return user
 
 def show_customer(db:Session):
     show_customer = db.query(models.logincustomer).all()
     return show_customer
 
 def placeorder(db:Session, request: schemas.orders):
-    order = models.orders(title=request.title,quantity= request.quantity)
+    def price():
+        check = db.query(models.Menu).filter(models.Menu.title == request.title).first()
+        if check:
+            bill = request.quantity * check.price
+            return bill
+    order = models.orders(title=request.title,quantity= request.quantity,price=price())
     db.add(order)
     db.commit()
-    check = db.query(models.Menu).filter(models.Menu.title == request.title).first()
-    if check:
-        if request.title == "Veg Momo":
-            bill = request.quantity * 160
-            return {'order': request.title, 'quantity': request.quantity, 'Bill': bill}
-        elif request.title == "Chicken Momo":
-            bill = request.quantity * 200
-            return {'order': request.title, 'quantity': request.quantity, 'Bill': bill}
-        elif request.title == "Mutton Momo":
-            bill = request.quantity * 300
-            return {'order': request.title, 'quantity': request.quantity, 'Bill': bill}
-
-
-    db.commit()
-    return order
+    return {'title':request.title,'quantity':request.quantity,'price':price()}
 

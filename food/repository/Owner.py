@@ -1,9 +1,9 @@
 from sqlalchemy.orm import Session
-from food import models, schemas
-from fastapi import HTTPException,status
-from werkzeug.security import generate_password_hash,check_password_hash
+from food import models, schemas,hashing,database
+from fastapi import HTTPException,status,Depends
+from food.hashing import Hash
 
-
+get_db = database.get_db
 
 
 def create_owner(db:Session, request:schemas.loginowner):
@@ -12,11 +12,22 @@ def create_owner(db:Session, request:schemas.loginowner):
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
         detail=f'Try unique username and email already '
         )
-    new_owner = models.loginowner(username= request.username,email = request.email, password =generate_password_hash(request.password))
+    new_owner = models.loginowner(username= request.username,email = request.email, password =hashing.Hash.bcrypt(request.password))
     db.add(new_owner)
     db.commit()
     db.refresh(new_owner)
     return new_owner
+
+
+def login(request: schemas.login, db: Session = Depends(get_db)):
+    user = db.query(models.loginowner).filter(models.loginowner.username == request.username).first()
+    if not user:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
+                            detail=f"Invalid credentials")
+    if not Hash.verify(user.password, request.password):
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
+                            detail=f"Incorrect password")
+    return user
 
 
 

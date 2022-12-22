@@ -18,12 +18,20 @@ router = APIRouter(
 
 
 
+@router.post('/login')
+def create_owner(request:schemas.loginowner, db:Session = Depends(get_db)):
+    return Owner.create_owner(db,request)
 
 
+@router.post('/login_as')
+def loginowner(request:schemas.login,db:Session = Depends(get_db)):
+    return Owner.login(request,db)
 
 @router.post('/')
 def create(request:schemas.Menu, db:Session = Depends(get_db)):
     return Owner.create(request, db)
+
+
 
 
 @router.delete('/{id}', status_code=status.HTTP_204_NO_CONTENT)
@@ -34,9 +42,7 @@ def remove_menu_item(id, db:Session=Depends(get_db)):
 def update(id, request:schemas.Menu, db:Session = Depends(get_db)):
     return Owner.update(db,id,request)
 
-@router.post('/login')
-def create_owner(request:schemas.loginowner, db:Session = Depends(get_db)):
-    return Owner.create_owner(db,request)
+
 
 @router.get('/show_customer', response_model=List[schemas.showlogincustomer])
 def show_costomer(db:Session = Depends(get_db)):
