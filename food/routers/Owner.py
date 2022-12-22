@@ -23,9 +23,7 @@ def create_owner(request:schemas.loginowner, db:Session = Depends(get_db)):
     return Owner.create_owner(db,request)
 
 
-@router.post('/login_as')
-def loginowner(request:schemas.login,db:Session = Depends(get_db)):
-    return Owner.login(request,db)
+
 
 @router.post('/')
 def create(request:schemas.Menu, db:Session = Depends(get_db)):

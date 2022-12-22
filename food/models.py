@@ -1,6 +1,6 @@
 from .database import Base
 from sqlalchemy import Column, Integer, String, ForeignKey
-from sqlalchemy.orm import relationship
+
 
 class Menu(Base):
     __tablename__ = "MENU"
@@ -11,11 +11,6 @@ class Menu(Base):
 
 
 
-
-class Bill(Base):
-    __tablename__ = "BILL"
-    id = Column(Integer, primary_key=True, index=True)
-    Bill = Column(Integer)
 
 class orders(Base):
     __tablename__ = "Orders"

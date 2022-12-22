@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from .database import engine
 from food import models
-from .routers import menu,Customer,Owner,Delivery,bill
+from .routers import menu,Customer,Owner,Delivery,login,bill
 
 
 
@@ -16,6 +16,7 @@ app  = FastAPI()
 
 models.Base.metadata.create_all(engine)
 
+app.include_router(login.router)
 app.include_router(menu.router)
 app.include_router(bill.router)
 app.include_router(Customer.router)

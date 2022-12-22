@@ -20,9 +20,7 @@ router = APIRouter(
 def create_customer(request:schemas.logincustomer, db:Session=Depends(get_db)):
     return Customer.create_customer(db,request)
 
-@router.post('/login_as_customer')
-def login(request:schemas.login,db:Session=Depends(get_db)):
-    return Customer.login_as_Customer(request,db)
+
 
 
 @router.put('/PlaceOrder')

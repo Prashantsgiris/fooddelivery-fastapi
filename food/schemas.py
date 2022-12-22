@@ -3,13 +3,18 @@ from typing import Optional
 
 
 
+class login(BaseModel):
+    username: str
+    email: str
+    password: str
+
+
 class Menu(BaseModel):
     title: str
     price: int
     user_id: int
 
-class Bill(BaseModel):
-    bill: int
+
 
 class ShowMenu(BaseModel):
     title: str
@@ -68,10 +73,6 @@ class showlogindelivery(BaseModel):
     class Config():
         orm_mode = True
 
-class login(BaseModel):
-    username: str
-    email: str
-    password: str
 
 
 
