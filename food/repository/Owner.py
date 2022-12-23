@@ -6,31 +6,6 @@ from food.hashing import Hash
 get_db = database.get_db
 
 
-def create_owner(db:Session, request:schemas.loginowner):
-    check = db.query(models.loginowner).filter(models.loginowner.username == request.username or models.loginowner.email == request.email).first()
-    if check is not None:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
-        detail=f'Try unique username and email already '
-        )
-    new_owner = models.loginowner(username= request.username,email = request.email, password =hashing.Hash.bcrypt(request.password))
-    db.add(new_owner)
-    db.commit()
-    db.refresh(new_owner)
-    return new_owner
-
-
-
-
-
-
-def create(request: schemas.Menu, db: Session):
-    new_menu = models.Menu( title = request.title, price = request.price, user_id = request.user_id)
-    db.add(new_menu)
-    db.commit()
-    db.refresh(new_menu)
-    return new_menu
-
-
 def delete(id, db:Session):
     remove = db.query(models.Menu).filter(models.Menu.id == id)
     if not remove.first():

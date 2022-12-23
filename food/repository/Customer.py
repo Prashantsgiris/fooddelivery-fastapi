@@ -5,17 +5,6 @@ from food.hashing import Hash
 
 get_db = database.get_db
 
-def create_customer(db: Session, request: schemas.logincustomer):
-    check = db.query(models.logincustomer).filter(models.logincustomer.username == request.username or models.logincustomer.email == request.email).first()
-    if check is not None:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f'Try unique username and email already ')
-    new_customer = models.logincustomer(username = request.username,email = request.email, password = hashing.Hash.bcrypt(request.password))
-    db.add(new_customer)
-    db.commit()
-    db.refresh(new_customer)
-    return new_customer
-
-
 
 def show_customer(db:Session):
     show_customer = db.query(models.logincustomer).all()

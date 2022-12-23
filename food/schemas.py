@@ -4,7 +4,6 @@ from typing import Optional
 
 
 class login(BaseModel):
-    username: str
     email: str
     password: str
 
@@ -39,9 +38,10 @@ class showorders(BaseModel):
 
 
 class loginowner(BaseModel):
-    username: str
+    username:str
     email: str
     password: str
+
 
 
 class logincustomer(BaseModel):
@@ -74,5 +74,11 @@ class showlogindelivery(BaseModel):
         orm_mode = True
 
 
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+
+class TokenData(BaseModel):
+    email: Optional[str] = None
 
 

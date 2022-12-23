@@ -15,23 +15,6 @@ router = APIRouter(
 )
 
 
-
-
-
-@router.post('/login')
-def create_owner(request:schemas.loginowner, db:Session = Depends(get_db)):
-    return Owner.create_owner(db,request)
-
-
-
-
-@router.post('/')
-def create(request:schemas.Menu, db:Session = Depends(get_db)):
-    return Owner.create(request, db)
-
-
-
-
 @router.delete('/{id}', status_code=status.HTTP_204_NO_CONTENT)
 def remove_menu_item(id, db:Session=Depends(get_db)):
     return Owner.delete(id,db)
