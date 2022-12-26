@@ -8,6 +8,7 @@ from .routers import menu,Customer,Owner,Delivery,login,bill
 
 
 
+
 app  = FastAPI()
 
 
@@ -15,7 +16,6 @@ app  = FastAPI()
 
 
 models.Base.metadata.create_all(engine)
-
 app.include_router(login.router)
 app.include_router(menu.router)
 app.include_router(bill.router)

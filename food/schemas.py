@@ -2,11 +2,10 @@ from pydantic import BaseModel
 from typing import Optional
 
 
-
 class login(BaseModel):
-    email: str
-    password: str
-
+    username:str
+    email:str
+    password:str
 
 class Menu(BaseModel):
     title: str
